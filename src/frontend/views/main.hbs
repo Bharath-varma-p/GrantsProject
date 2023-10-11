@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Grants Portal</title>
+  <link rel="stylesheet" href="public/style.css">
+</head>
+<body>
+  <h1>Grants Portal</h1>
+
+  <ul>
+    {{#each grants}}
+      <li>
+        <h2>{{title}}</h2>
+        <p>{{description}}</p>
+        <a href="/grants/{{id}}">View More</a>
+      </li>
+    {{/each}}
+  </ul>
+
+  <script src="public/script.js"></script>
+</body>
+</html>
