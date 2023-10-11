@@ -11,7 +11,7 @@ const $ = cheerio.load(xml, {xmlMode: true});
 const opportunities = [];
 
 $('OpportunitySynopsisDetail_1_0').each((i, elem) => {
-
+    // List of all the fields in the XML file
   const id = $(elem).find('OpportunityID').text();
   const title = $(elem).find('OpportunityTitle').text();
   const number = $(elem).find('OpportunityNumber').text();
@@ -39,7 +39,7 @@ $('OpportunitySynopsisDetail_1_0').each((i, elem) => {
   const GrantorContactEmailDescription = $(elem).find('GrantorContactEmailDescription').text();
   const GrantorContactText = $(elem).find('GrantorContactText').text();
 
-  // Extract other fields...
+  
 
   const opportunity = {
     id,
