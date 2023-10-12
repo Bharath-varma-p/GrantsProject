@@ -1,10 +1,12 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
+const { writeFile } = require('fs').promises;
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 // Load XML file 
-const xml = fs.readFileSync('/Users/bharath/Documents/GrantsProject/Downloaded_data/GrantsDBExtract20231005v2.xml', 'utf8');
+const xml = fs.readFileSync('/Users/bharath/Documents/GrantsPortal/GrantsProject/Downloaded_data/GrantsDBExtract20231006v2.xml', 'utf8');
 
-// Parse XML using cheerio
+// Parse XML using cheerioo
 const $ = cheerio.load(xml, {xmlMode: true}); 
 
 // Extract data
@@ -74,4 +76,46 @@ $('OpportunitySynopsisDetail_1_0').each((i, elem) => {
 
 });
 
-console.log(opportunities);
+// console.log(opportunities);
+
+async function main() {
+  const csvWriter = createCsvWriter({
+    path: 'opportunities.csv',
+    header: [
+      { id: 'id', title: 'OpportunityID' },
+      { id: 'title', title: 'OpportunityTitle' },
+      { id: 'number', title: 'OpportunityNumber' },
+      { id: 'category', title: 'OpportunityCategory' },
+      { id: 'FundingInstrumentType', title: 'FundingInstrumentType' },
+      { id: 'CategoryOfFundingActivity', title: 'CategoryOfFundingActivity' },
+      { id: 'CategoryExplanation', title: 'CategoryExplanation' },
+      { id: 'CFDANumbers', title: 'CFDANumbers' },
+      { id: 'EligibleApplicants', title: 'EligibleApplicants' },
+      { id: 'AdditionalInformationOnEligibility', title: 'AdditionalInformationOnEligibility' },
+      { id: 'AgencyCode', title: 'AgencyCode' },
+      { id: 'AgencyName', title: 'AgencyName' },
+      { id: 'PostDate', title: 'PostDate' },
+      { id: 'CloseDate', title: 'CloseDate' },
+      { id: 'LastUpdatedDate', title: 'LastUpdatedDate' },
+      { id: 'AwardCeiling', title: 'AwardCeiling' },
+      { id: 'AwardFloor', title: 'AwardFloor' },
+      { id: 'EstimatedTotalProgramFunding', title: 'EstimatedTotalProgramFunding' },
+      { id: 'ExpectedNumberOfAwards', title: 'ExpectedNumberOfAwards' },
+      { id: 'Description', title: 'Description' },
+      { id: 'Version', title: 'Version' },
+      { id: 'CostSharingOrMatchingRequirement', title: 'CostSharingOrMatchingRequirement' },
+      { id: 'ArchiveDate', title: 'ArchiveDate' },
+      { id: 'GrantorContactEmail', title: 'GrantorContactEmail' },
+      { id: 'GrantorContactEmailDescription', title: 'GrantorContactEmailDescription' },
+      { id: 'GrantorContactText', title: 'GrantorContactText' }
+    ],
+    
+  });
+
+  // Write the opportunities array to the CSV file
+  await csvWriter.writeRecords(opportunities);
+
+  console.log('CSV file saved successfully!');
+}
+
+main();
